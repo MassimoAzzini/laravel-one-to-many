@@ -23,7 +23,9 @@ class Project extends Model
         'description',
         'start_project',
         'end_project',
-        'url'
+        'url',
+        'image',
+        'image_original_name'
     ];
 
 }

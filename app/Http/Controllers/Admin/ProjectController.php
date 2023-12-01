@@ -7,6 +7,8 @@ use App\Http\Requests\ProjectRequest;
 use Illuminate\Http\Request;
 use App\Functions\Helper;
 use App\Models\Project;
+use App\Models\Type;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -32,7 +34,8 @@ class ProjectController extends Controller
         $method = 'POST';
         $route = route('admin.projects.store');
         $project = null;
-        return view('admin.projects.create-edit', compact('title','method', 'route', 'project'));
+        $types = Type::all();
+        return view('admin.projects.create-edit', compact('title','method', 'route', 'project', 'types'));
     }
 
     /**
@@ -46,6 +49,12 @@ class ProjectController extends Controller
         $form_data = $request->all();
         $new_project = new Project();
         $form_data['slug'] = Helper::generateSlug($form_data['name'], Project::class);
+
+        if(array_key_exists('image', $form_data)){
+            $form_data['image_original_name'] = $request->file('image')->getClientOriginalName();
+            $form_data['image'] = Storage::put('uploads', $form_data['image']);
+        }
+
         $new_project->fill($form_data);
         $new_project->save();
         return redirect()->route('admin.projects.show', $new_project);
@@ -73,8 +82,9 @@ class ProjectController extends Controller
         $title = 'Edit Project';
         $method = 'PUT';
         $route = route('admin.projects.update', $project);
+        $types = Type::all();
 
-        return view('admin.projects.create-edit', compact('title', 'method', 'route', 'project'));
+        return view('admin.projects.create-edit', compact('title', 'method', 'route', 'project', 'types'));
     }
 
     /**
@@ -94,6 +104,15 @@ class ProjectController extends Controller
             $form_data['slug'] = Helper::generateSlug($form_data['name'], Project::class);
         }
 
+        if(array_key_exists('image', $form_data)){
+            if($project->image){
+                Storage::disk('public')->delete($project->image);
+            }
+
+            $form_data['image_original_name'] = $request->file('image')->getClientOriginalName();
+            $form_data['image'] = Storage::put('uploads', $form_data['image']);
+        }
+
         $project->update($form_data);
 
         return redirect()->route('admin.projects.show', $project);
@@ -108,6 +127,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if($project->image){
+            Storage::disk('public')->delete($project->image);
+        }
+
         $project->delete();
 
         return redirect()->route('admin.projects.index');

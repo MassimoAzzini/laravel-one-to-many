@@ -15,7 +15,7 @@
 
 @endif
 
-<form action="{{ $route }}" method="POST" class="row g-3">
+<form action="{{ $route }}" method="POST" class="row g-3" enctype="multipart/form-data">
 
     @csrf
     @method($method)
@@ -44,6 +44,18 @@
 
     </div>
     <div class="col-4">
+        <label for="type_id" class="form-label">Type</label>
+        <select name="type_id" class="form-select" id="type_id" >
+            <option value="">Select Type</option>
+            @foreach ($types as $type)
+                <option value="{{ $type->id }}" @if ($type->id === old('type_id', $project?->type?->id)) selected @endif>
+                    {{ $type->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-12">
         <label for="url" class="form-label">Link Project</label>
         <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url', $project?->url) }}">
         @error('url')
@@ -67,12 +79,38 @@
         @enderror
 
     </div>
+
+    <div class="col-5">
+        <label for="image" class="form-label">Image</label>
+        <input
+          id="image"
+          class="form-control @error('image') is-invalid @enderror"
+          name="image"
+          type="file"
+          onchange="showImage(event)"
+          value="{{ old('image', $project?->image) }}"
+        >
+        @error('image')
+            <p class="text-danger">{{ $image }}</p>
+        @enderror
+
+        <img class="mt-3" id="thumb" width="150" onerror="this.src='/img/placeholder.jpg'"  src="{{ asset('storage/' . $project?->image) }}" />
+
+    </div>
+
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Send</button>
         <button type="reset" class="btn btn-warning">Reset</button>
         <a class="btn btn-info" href="{{ route('admin.projects.index') }}">List Project</a>
     </div>
 </form>
+
+<script>
+    function showImage(event){
+        const thumb = document.getElementById('thumb');
+        thumb.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 
 
 @endsection
