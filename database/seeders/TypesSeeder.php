@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Faker\Generator as Faker;
 use App\Models\Type;
-use App\Functions\Helper;
+use Illuminate\Support\Str;
 
 class TypesSeeder extends Seeder
 {
@@ -15,13 +14,16 @@ class TypesSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
-        for($i = 0; $i < 5; $i++) {
+        $data = ['database', 'web-site', 'app', 'web-app'];
+        foreach($data as $type){
             $new_type = new Type();
-            $new_type->name = $faker->word();
-            $new_type->slug = Helper::generateSlug($new_type->name, Type::class);
+            $new_type->name = $type;
+            $new_type->slug = Str::slug($type, '-');
             $new_type->save();
+
         }
+
     }
 }
