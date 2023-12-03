@@ -2,9 +2,9 @@
 
 @section('content')
 
-    <h1 class="fw-bold text-primary">Index Projects</h1>
+    <h1 class="fw-bold">Index Projects</h1>
 
-    <a class="btn btn-secondary text-end my-3" href="{{ route('admin.projects.create') }}">New Project</a>
+    <a class="btn btn-secondary text-end my-2" href="{{ route('admin.projects.create') }}">New Project</a>
 
     <table class="table table-dark">
         <thead>
@@ -12,6 +12,7 @@
             <th scope="col">Name Project</th>
             <th scope="col">Start Project</th>
             <th scope="col">Short Description</th>
+            <th scope="col">Type</th>
             <th scope="col">Link</th>
             <th scope="col">Action</th>
           </tr>
@@ -23,6 +24,7 @@
                     <td>{{ $project->name }}</td>
                     <td>{{ $project->start_project }}</td>
                     <td>{{ $project->short_description }}</td>
+                    <td>{{ $project->type->name }}</td>
                     <td><a href="{{ $project->url }}" target="_blank">Project link</a></td>
                     <td>
                         <a class="btn btn-success" href="{{ route('admin.projects.show', $project) }}">Details</a>

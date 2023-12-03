@@ -1,8 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="d-flex justify-content-between">
-        <h1><strong>Project: </strong> {{ $project->name }}</h1>
+<div class="container bg-dark text-white p-5 opacity-75">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <span class="text-white me-3 fw-bold fs-4">Name Project: </span>
+            <h1 class="fw-bold text-capitalize"> {{ $project->name }}</h1>
+        </div>
 
         <div>
             <a class="btn btn-warning" href="{{ route('admin.projects.edit', $project) }}">Edit</a>
@@ -28,14 +33,22 @@
             @endif
 
         </div>
+
         <div class="col">
             <strong>Link Project: </strong> <a href="{{ $project->url }}"> Project link </a>
         </div>
     </div>
 
+    <div>
+        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->image_original_name }}">
+    </div>
+
+
     <p>
         <strong>Description Project: </strong>{{ $project->description }}
     </p>
+</div>
+
 
 
 @endsection

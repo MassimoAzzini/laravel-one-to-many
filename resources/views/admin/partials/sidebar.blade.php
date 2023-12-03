@@ -1,4 +1,4 @@
-<aside class="bg-dark">
+<aside class="bg-dark opacity-75">
     <nav>
 
         <ul class="mt-3">

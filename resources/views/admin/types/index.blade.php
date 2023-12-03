@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1 class="fw-bold text-primary">Index Types</h1>
+    <h1 class="fw-bold">Index Types</h1>
 
     <form class="col-5" action="{{ route('admin.types.store') }}" method="POST">
         @csrf

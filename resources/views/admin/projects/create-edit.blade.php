@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 
 @section('content')
+<div class="container bg-dark opacity-75">
 
-<h1>{{ $title }}</h1>
+
+<h1 class="fw-bold">{{ $title }}</h1>
 
 @if($errors->any())
 <div class="alert alert-danger" role="alert">
@@ -15,7 +17,7 @@
 
 @endif
 
-<form action="{{ $route }}" method="POST" class="row g-3" enctype="multipart/form-data">
+<form action="{{ $route }}" method="POST" class="row g-3 create-edit-form" enctype="multipart/form-data">
 
     @csrf
     @method($method)
@@ -104,6 +106,9 @@
         <a class="btn btn-info" href="{{ route('admin.projects.index') }}">List Project</a>
     </div>
 </form>
+
+</div>
+
 
 <script>
     function showImage(event){

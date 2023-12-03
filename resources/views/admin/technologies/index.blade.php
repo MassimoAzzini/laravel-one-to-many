@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1 class="fw-bold text-primary">Index Technologies</h1>
+    <h1 class="fw-bold">Index Technologies</h1>
 
     <form class="col-5" action="{{ route('admin.technologies.store') }}" method="POST">
         @csrf
